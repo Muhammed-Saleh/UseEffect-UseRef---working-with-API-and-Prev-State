@@ -5,6 +5,9 @@ const App = () => {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
 
+ ///--------////////////////////////////////////////--------///
+ // 01
+
     //useEffect with empty dependency array
     //run one time only
     //when: after first
@@ -12,12 +15,25 @@ const App = () => {
     //render
     //useEffect
 
+    // useEffect(() => {
+    //     //ADD UR CODE
+    //     console.log('use effect one time');
+    // }, []) //useEffect dependency array
+
+
+ ///--------////////////////////////////////////////--------///
+ // 02
+//useEffect with not empty dependency array
+
+    // render
+    // useEffect
     useEffect(() => {
         //ADD UR CODE
-        console.log('use effect one time');
-    }, []) //useEffect dependency array
+        if (name || phone)
+            console.log('update');
+    }, [name, phone]); //useEffect dependency array
+    //watcher -> state / props / var
 
-    console.log("render");
 
     return (
         <div>
