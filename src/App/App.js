@@ -25,14 +25,25 @@ const App = () => {
  // 02
 //useEffect with not empty dependency array
 
-    // render
-    // useEffect
-    useEffect(() => {
-        //ADD UR CODE
-        if (name || phone)
-            console.log('update');
-    }, [name, phone]); //useEffect dependency array
-    //watcher -> state / props / var
+    // // render
+    // // useEffect
+    // useEffect(() => {
+    //     //ADD UR CODE
+    //     if (name || phone)
+    //         console.log('update');
+    // }, [name, phone]); //useEffect dependency array
+    // //watcher -> state / props / var
+
+ ///--------////////////////////////////////////////--------///
+ // 03
+//useEffect without dependency array
+    //run when update happen
+    //when: run after first render,
+useEffect(() => {
+    console.log("effect");
+});
+
+
 
 
     return (
