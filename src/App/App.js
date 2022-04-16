@@ -38,10 +38,40 @@ const App = () => {
  // 03
 //useEffect without dependency array
     //run when update happen
-    //when: run after first render,
-useEffect(() => {
-    console.log("effect");
-});
+    //when: run after first, and after re-render
+    // useEffect(() => {
+    //     console.log("effect");
+    // });
+
+    //render
+    //change->
+    //re render
+    //use Effect
+
+ ///--------////////////////////////////////////////--------///
+ // clean up
+
+    useEffect(() => {
+        if(name) {
+            const timeOut = setTimeout(() => {
+                console.log("effect");
+            }, 2000);
+
+            return () => {
+                clearTimeout(timeOut);
+            };
+        };
+    }, [name]);
+
+    //render
+    //use Effect x1
+    //return / init clean up
+
+    //change state
+    //render
+    //clean up excute
+    //useEffect -> watcher -> name updated -> run
+    //return / init clean up
 
 
 
