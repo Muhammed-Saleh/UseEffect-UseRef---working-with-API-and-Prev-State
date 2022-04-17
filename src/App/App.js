@@ -9,6 +9,7 @@ export default function App() {
 
     useEffect(()  =>  {
         const search = async () => {
+          
             const respond = await axios.get('https://en.wikipedia.org/w/api.php', {
                 params: {
                     action: 'query',
@@ -22,10 +23,13 @@ export default function App() {
             setResult(respond.data.query.search);
 
         };
-
-        if(term){
+        const debounceSearch = setTimeout(() => {
+          if(term){
             search();
-        }
+          }
+        }, 2000);
+
+        return () => clearTimeout(debounceSearch);
 
     },[term]);
 
