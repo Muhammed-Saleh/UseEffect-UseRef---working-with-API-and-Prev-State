@@ -5,33 +5,69 @@ import axios from 'axios';
 export default function App() {
 
     const [term, setTerm] = useState('javascript');
+    const [debounceSearch, setDebounceSearch] = useState(term);
     const [result, setResult] = useState([]);
+    
+    useEffect(() => {
+      const timeOut = setTimeout(() => {
 
-    useEffect(()  =>  {
+        console.log('time'); 
+        setDebounceSearch(term)}, 1200);
+
+      return () => clearTimeout(timeOut);
+    }, [term]);
+
+    useEffect(() => {
         const search = async () => {
-          
             const respond = await axios.get('https://en.wikipedia.org/w/api.php', {
                 params: {
                     action: 'query',
                     list: 'search',
                     origin: '*',
                     format: 'json',
-                    srsearch: term,
+                    srsearch: debounceSearch,
                 },
             });
 
             setResult(respond.data.query.search);
 
         };
-        const debounceSearch = setTimeout(() => {
-          if(term){
-            search();
-          }
-        }, 2000);
 
-        return () => clearTimeout(debounceSearch);
+        search();
+  }, [debounceSearch]);
 
-    },[term]);
+    console.log('re-render');
+    // useEffect(()  =>  {
+    //     const search = async () => {
+    //         const respond = await axios.get('https://en.wikipedia.org/w/api.php', {
+    //             params: {
+    //                 action: 'query',
+    //                 list: 'search',
+    //                 origin: '*',
+    //                 format: 'json',
+    //                 srsearch: term,
+    //             },
+    //         });
+
+    //         setResult(respond.data.query.search);
+
+    //     };
+
+    //     if (!result.length) {
+    //       search();
+    //     } else {
+
+    //       const debounceSearch = setTimeout(() => {
+    //         if(term){
+    //           search();
+    //         }
+    //       }, 2000);
+  
+    //       return () => clearTimeout(debounceSearch);
+    //     }
+
+
+    // },[term, result.length]);
 
     const fetchResult = result.map((el) => {
         return(
@@ -72,11 +108,10 @@ export default function App() {
                   <th scope='col'>Desc</th>
                 </tr>
               </thead>
-              <tbody>{fetchResult}</tbody>
-            </table>
+               <tbody>{fetchResult}</tbody>
+              </table>
           </div>
         </div>
       </div>
     );
   }
-  
