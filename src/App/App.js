@@ -1,83 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import axios from 'axios';
 
 export default function App() {
 
     const [term, setTerm] = useState('javascript');
-    const [debounceSearch, setDebounceSearch] = useState(term);
-    const [result, setResult] = useState([]);
+    const prevTermState = useRef();
     
     useEffect(() => {
-      const timeOut = setTimeout(() => {
-
-        console.log('time'); 
-        setDebounceSearch(term)}, 1200);
-
-      return () => clearTimeout(timeOut);
-    }, [term]);
-
-    useEffect(() => {
-        const search = async () => {
-            const respond = await axios.get('https://en.wikipedia.org/w/api.php', {
-                params: {
-                    action: 'query',
-                    list: 'search',
-                    origin: '*',
-                    format: 'json',
-                    srsearch: debounceSearch,
-                },
-            });
-
-            setResult(respond.data.query.search);
-
-        };
-
-        search();
-  }, [debounceSearch]);
-
-    console.log('re-render');
-    // useEffect(()  =>  {
-    //     const search = async () => {
-    //         const respond = await axios.get('https://en.wikipedia.org/w/api.php', {
-    //             params: {
-    //                 action: 'query',
-    //                 list: 'search',
-    //                 origin: '*',
-    //                 format: 'json',
-    //                 srsearch: term,
-    //             },
-    //         });
-
-    //         setResult(respond.data.query.search);
-
-    //     };
-
-    //     if (!result.length) {
-    //       search();
-    //     } else {
-
-    //       const debounceSearch = setTimeout(() => {
-    //         if(term){
-    //           search();
-    //         }
-    //       }, 2000);
-  
-    //       return () => clearTimeout(debounceSearch);
-    //     }
-
-
-    // },[term, result.length]);
-
-    const fetchResult = result.map((el) => {
-        return(
-          <tr key={el.pageid}>
-            <td>1</td>
-            <td>{el.title}</td>
-            <td>{el.snippet}</td>
-          </tr>
-        );
+      prevTermState.current = term;
     });
+
+    const prevTerm = prevTermState.current;
 
     return (
       <div className='container'>
@@ -95,21 +29,8 @@ export default function App() {
                 value = {term}
               />
             </div>
-          </div>
-        </div>
-  
-        <div className='row'>
-          <div className='col'>
-            <table className='table'>
-              <thead>
-                <tr>
-                  <th scope='col'>#</th>
-                  <th scope='col'>Title</th>
-                  <th scope='col'>Desc</th>
-                </tr>
-              </thead>
-               <tbody>{fetchResult}</tbody>
-              </table>
+            <p>Current term: {term}</p>    
+            <p>Prev term: {prevTerm}</p>              
           </div>
         </div>
       </div>
