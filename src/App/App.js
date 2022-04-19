@@ -1,25 +1,13 @@
 import { useEffect, useState, useRef } from 'react';
+
+import usePrevState from '../hooks/usePrevState';
 import axios from 'axios';
 
 export default function App() {
   const [term, setTerm] = useState('javascript');
   const [result, setResult] = useState([]);
+  const prevTerm = usePrevState(term);
 
-  //define use ref
-  //prevTerm = undefined;
-  //render
-  //use effect => use ref -> javascript
-  //update state (term) javascript 2
-  //render ->print state (javascript2) / print use ref (javascript)
-  //use effect -> use ref -> javascript2
-
-  const prevStateTerm = useRef('');
-
-  useEffect(() => {
-    prevStateTerm.current = term;
-  }, [term]);
-
-  const prevTerm = prevStateTerm.current;
 
   useEffect(() => {
     const search = async () => {
